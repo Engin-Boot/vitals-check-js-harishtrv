@@ -3,19 +3,36 @@ function vitalsAreOk(bpm, spo2, respRate) {
     return checkBpm(bpm) && checkSpo2(spo2) && checkRespRate(respRate);
 }
 function checkBpm(bpm) {
-    if(bpm < 70 || bpm > 150)
+    if(bpm < 70){
+        breachAction('bpm','low',bpm);
         return false;
+    }
+    else if(bpm > 150){
+        breachAction('bpm','high',bpm);
+        return false;
+    }
     return true;
 }
 function checkSpo2(spo2) {
-    if(spo2 < 90)
+    if(spo2 < 90){
+        breachAction('spo2','low',spo2);
         return false;
+    }
     return true;
 }
 function checkRespRate(respRate) {
-    if(respRate < 30 || respRate > 95)
+    if(respRate < 30){
+        breachAction('respRate','low',respRate);
         return false;
+    }
+    else if(respRate > 95){
+        breachAction('respRate','high',respRate);
+        return false;
+    }
     return true;
+}
+function breachAction(vitalType,condition,value){
+    console.log('The vital ' + vitalType + ' is ' + condition + ' that is ' + value);
 }
 expect(vitalsAreOk(100, 95, 70)).to.be.true;//checking all
 expect(vitalsAreOk(50, 95, 70)).to.be.false;//checking bpm
